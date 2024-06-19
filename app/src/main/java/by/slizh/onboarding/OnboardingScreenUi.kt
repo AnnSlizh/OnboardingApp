@@ -2,12 +2,17 @@ package by.slizh.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,44 +30,46 @@ import by.slizh.onboarding.ui.theme.Typography
 @Composable
 fun OnboardingScreenUi(onboardingModel: OnboardingModel) {
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(onboardingModel.color)
+            .padding(top = 35.dp)
+
     ) {
-
-        Text(
-            text = onboardingModel.title,
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp, 35.dp, 24.dp, 12.dp),
-            fontSize = 28.sp,
-            textAlign = TextAlign.Start,
-            color = Color.White
-        )
+                .fillMaxSize()
+                .padding(top = 35.dp)
+        ) {
 
-        Text(
-            text = onboardingModel.description,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp, 0.dp, 24.dp, 38.dp),
-            fontSize = 18.sp,
-            textAlign = TextAlign.Start,
-            color = Color.White.copy(alpha = 0.9f)
-        )
+            Text(
+                text = onboardingModel.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp, 0.dp, 24.dp, 12.dp),
+                fontSize = 28.sp,
+                textAlign = TextAlign.Start,
+                color = Color.White
+            )
 
-        Image(
-            painter = painterResource(id = onboardingModel.image), contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+            Text(
+                text = onboardingModel.description,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp, 0.dp, 24.dp, 38.dp),
+                fontSize = 18.sp,
+                textAlign = TextAlign.Start,
+                color = Color.White.copy(alpha = 0.9f)
+            )
 
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(60.dp)
-        )
+            Image(
+                painter = painterResource(id = onboardingModel.image), contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
     }
+
 
 }
 
