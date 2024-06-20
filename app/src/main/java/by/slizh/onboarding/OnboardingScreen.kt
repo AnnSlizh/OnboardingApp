@@ -1,11 +1,9 @@
 package by.slizh.onboarding
 
-import androidx.annotation.Size
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,29 +18,24 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import by.slizh.onboarding.navigation.Screen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(navController: NavHostController) {
 
     val scope = rememberCoroutineScope()
 
@@ -65,25 +58,29 @@ fun OnboardingScreen() {
                 .fillMaxSize()
                 .weight(1f)
         ) { page ->
-
             OnboardingScreenUi(onboardingModel = pages[page])
-
         }
 
         BottomSection(
             size = pages.size,
             index = state.currentPage,
-            color = pages[state.currentPage].color
+            color = pages[state.currentPage].color,
+            navController = navController
         ) {
             if (state.currentPage + 1 < pages.size) scope.launch { state.scrollToPage(state.currentPage + 1) }
-
+            else navController.navigate(Screen.FinishScreen.route)
         }
-
     }
 }
 
 @Composable
-fun BottomSection(size: Int, index: Int, color: Color, onNextClicked: () -> Unit) {
+fun BottomSection(
+    size: Int,
+    index: Int,
+    color: Color,
+    navController: NavHostController,
+    onNextClicked: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -106,7 +103,9 @@ fun BottomSection(size: Int, index: Int, color: Color, onNextClicked: () -> Unit
                     color = Color.White.copy(alpha = 0.7f),
                     modifier = Modifier
                         .padding(top = 16.dp)
-                        .clickable(onClick = { /* Handle Skip click */ })
+                        .clickable(onClick = {
+                            navController.navigate(Screen.FinishScreen.route)
+                        })
                 )
             }
 
@@ -140,10 +139,4 @@ fun BottomSection(size: Int, index: Int, color: Color, onNextClicked: () -> Unit
             }
         }
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun OnboardingScreenPreview() {
-    OnboardingScreen()
 }
